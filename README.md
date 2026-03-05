@@ -48,10 +48,10 @@ tokentracker dashboard
 ```
 
 ```
-╭──────────── TokenTracker — Last 30 days ────────────╮
+╭──────────── TokenTracker — Last 30 days ─────────────╮
 │ Total cost: $12.4832                                 │
 │ API calls: 1,847                                     │
-│ Tokens: 2,391,205 (1,843,901 in / 547,304 out)     │
+│ Tokens: 2,391,205 (1,843,901 in / 547,304 out)       │
 │ Avg latency: 1,203ms                                 │
 │ Models used: 4                                       │
 ╰──────────────────────────────────────────────────────╯
