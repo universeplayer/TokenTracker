@@ -40,21 +40,44 @@ MODEL_PRICES: dict[str, tuple[float, float]] = {
 }
 
 
+def _normalize_model_name(model: str) -> str | None:
+    """Try to match a model name to our pricing table, handling date suffixes and prefixes.
+
+    OpenAI returns names like 'gpt-4o-2024-08-06', OpenRouter uses 'openai/gpt-4o', etc.
+    """
+    if model in MODEL_PRICES:
+        return model
+
+    # Strip provider prefixes (openai/gpt-4o → gpt-4o)
+    for prefix in ("openai/", "anthropic/", "google/", "deepseek/", "meta-llama/"):
+        if model.startswith(prefix):
+            stripped = model[len(prefix):]
+            if stripped in MODEL_PRICES:
+                return stripped
+
+    # Strip date suffixes (gpt-4o-2024-08-06 → gpt-4o)
+    import re
+    base = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", model)
+    if base in MODEL_PRICES:
+        return base
+
+    # Both: prefix + date suffix
+    for prefix in ("openai/", "anthropic/", "google/", "deepseek/", "meta-llama/"):
+        if model.startswith(prefix):
+            base = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", model[len(prefix):])
+            if base in MODEL_PRICES:
+                return base
+
+    return None
+
+
 def estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float | None:
     """Estimate cost in USD for a given model and token counts.
 
     Returns None if the model isn't in the pricing table.
     """
-    prices = MODEL_PRICES.get(model)
-    if prices is None:
-        # Try stripping common prefixes
-        for prefix in ("openai/", "anthropic/", "google/", "deepseek/", "meta-llama/"):
-            stripped = model.removeprefix(prefix)
-            if stripped != model:
-                prices = MODEL_PRICES.get(stripped)
-                if prices:
-                    break
-    if prices is None:
+    key = _normalize_model_name(model)
+    if key is None:
         return None
-    input_cost, output_cost = prices
+    input_cost, output_cost = MODEL_PRICES[key]
     return (input_tokens * input_cost + output_tokens * output_cost) / 1_000_000

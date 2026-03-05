@@ -24,3 +24,21 @@ def test_openrouter_prefix():
 def test_zero_tokens():
     cost = estimate_cost("gpt-4o", input_tokens=0, output_tokens=0)
     assert cost == 0.0
+
+
+def test_date_suffix():
+    """OpenAI returns model names like gpt-4o-2024-08-06."""
+    cost = estimate_cost("gpt-4o-2024-08-06", input_tokens=1000, output_tokens=500)
+    assert cost is not None
+    assert abs(cost - 0.0075) < 0.0001
+
+
+def test_date_suffix_mini():
+    cost = estimate_cost("gpt-4o-mini-2024-07-18", input_tokens=1000, output_tokens=500)
+    assert cost is not None
+    assert cost > 0
+
+
+def test_prefix_plus_date_suffix():
+    cost = estimate_cost("openai/gpt-4o-2024-08-06", input_tokens=1000, output_tokens=500)
+    assert cost is not None
