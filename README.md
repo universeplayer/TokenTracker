@@ -8,7 +8,7 @@ Every API call logged. Every dollar tracked. Zero configuration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![CI](https://github.com/universeplayer/TokenTracker/actions/workflows/ci.yml/badge.svg)](https://github.com/universeplayer/TokenTracker/actions)
+[![CI](https://github.com/he-yufeng/TokenTracker/actions/workflows/ci.yml/badge.svg)](https://github.com/he-yufeng/TokenTracker/actions)
 
 **[English](README.md) | [中文](README_CN.md)**
 
@@ -270,6 +270,6 @@ Contributions welcome — especially:
 
 **If TokenTracker helped you understand your LLM spending, give it a star!**
 
-[Report a Bug](https://github.com/universeplayer/TokenTracker/issues) · [Request a Feature](https://github.com/universeplayer/TokenTracker/issues)
+[Report a Bug](https://github.com/he-yufeng/TokenTracker/issues) · [Request a Feature](https://github.com/he-yufeng/TokenTracker/issues)
 
 </div>

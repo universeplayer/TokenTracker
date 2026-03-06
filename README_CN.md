@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![CI](https://github.com/universeplayer/TokenTracker/actions/workflows/ci.yml/badge.svg)](https://github.com/universeplayer/TokenTracker/actions)
+[![CI](https://github.com/he-yufeng/TokenTracker/actions/workflows/ci.yml/badge.svg)](https://github.com/he-yufeng/TokenTracker/actions)
 
 **[English](README.md) | [中文](README_CN.md)**
 
@@ -231,6 +231,6 @@ token 数量从最终响应对象中提取。流式响应的自动追踪支持�
 
 **如果 TokenTracker 帮你看清了 LLM 账单，给个 star！**
 
-[报告问题](https://github.com/universeplayer/TokenTracker/issues) · [功能建议](https://github.com/universeplayer/TokenTracker/issues)
+[报告问题](https://github.com/he-yufeng/TokenTracker/issues) · [功能建议](https://github.com/he-yufeng/TokenTracker/issues)
 
 </div>
