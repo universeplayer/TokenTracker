@@ -20,7 +20,6 @@ class _TrackedCompletions:
     def create(self, **kwargs) -> Any:
         model = kwargs.get("model", "unknown")
         t0 = time.perf_counter()
-        error_msg = None
         try:
             response = self._original.create(**kwargs)
         except Exception as e:

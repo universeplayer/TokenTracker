@@ -2,9 +2,9 @@
 
 __version__ = "0.1.0"
 
-from tokentracker.client import OpenAI, AsyncOpenAI
+from tokentracker.client import AsyncOpenAI, OpenAI
 from tokentracker.db import get_db
-from tokentracker.query import summary, recent, cost_by_model, cost_by_day
+from tokentracker.query import cost_by_day, cost_by_model, recent, summary
 
 __all__ = [
     "OpenAI",

@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from datetime import datetime
+
 import click
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
-from datetime import datetime
+from rich.table import Table
 
 from tokentracker import __version__
 
@@ -24,7 +25,7 @@ def main():
 @click.option("--days", "-d", default=30, help="Number of days to look back")
 def dashboard(days: int):
     """Show a summary dashboard of your LLM spending."""
-    from tokentracker.query import summary, cost_by_model, cost_by_day
+    from tokentracker.query import cost_by_day, cost_by_model, summary
 
     s = summary(days=days)
 
@@ -123,10 +124,11 @@ def recent(limit: int):
 @click.option("--days", "-d", default=30)
 def export(fmt: str, days: int):
     """Export usage data to JSON or CSV."""
-    from tokentracker.query import recent as get_recent
-    import json
     import csv
+    import json
     import sys
+
+    from tokentracker.query import recent as get_recent
 
     calls = get_recent(limit=10000)
     if not calls:
