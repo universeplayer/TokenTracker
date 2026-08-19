@@ -499,3 +499,40 @@ def test_compare_cli_empty_db(tmp_path, monkeypatch):
 
     assert result.exit_code == 0, result.output
     assert "No API calls tracked yet." in result.output
+
+
+def test_budgets_check_fail_on_warn_exits_nonzero_on_warn(tmp_path, monkeypatch):
+    db_path = str(tmp_path / "usage.db")
+    monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
+    from tokentracker import budgets as budgets_mod
+    from tokentracker.client import log_call
+
+    log_call("m", 100, 50, 150, 0.09, 100.0, db_path=db_path)
+    budgets_mod.set_budget(
+        name="tight", limit_usd=0.10, warn_at=0.5, days=1, db_path=db_path
+    )
+
+    from click.testing import CliRunner
+    from tokentracker.cli import budgets
+
+    result = CliRunner().invoke(budgets, ["check"])
+    assert result.exit_code == 0  # warn does not fail by default
+
+    result = CliRunner().invoke(budgets, ["check", "--fail-on", "warn"])
+    assert result.exit_code == 1
+
+
+def test_budgets_check_fail_on_exceeded_still_exits_zero_when_clean(tmp_path, monkeypatch):
+    db_path = str(tmp_path / "usage.db")
+    monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
+    from tokentracker import budgets as budgets_mod
+
+    budgets_mod.set_budget(
+        name="roomy", limit_usd=100.0, warn_at=0.8, days=1, db_path=db_path
+    )
+
+    from click.testing import CliRunner
+    from tokentracker.cli import budgets
+
+    result = CliRunner().invoke(budgets, ["check", "--fail-on", "warn"])
+    assert result.exit_code == 0

@@ -146,6 +146,9 @@ tokentracker budget --days 7 --limit 20
 # 脚本里用 JSON 输出
 tokentracker budget --limit 100 --json
 
+# 命名预算的 CI 门禁：超支即败，加 --fail-on warn 提前到逼近上限就败
+tokentracker budgets check --fail-on warn
+
 # 单独限制昂贵模型或某类 API endpoint
 tokentracker budget --days 7 --limit 10 --model gpt-4o
 tokentracker budget --days 7 --limit 2 --endpoint embeddings --json

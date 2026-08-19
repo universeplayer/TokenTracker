@@ -101,6 +101,8 @@ EXCEEDED gpt4-daily  $63.1200/$50.00 (126.2%) · over budget
 ```bash
 # In CI — nonzero exit fails the step when any budget is exceeded
 tokentracker budgets check --json
+# or gate earlier: also fail on warn status (approaching the limit)
+tokentracker budgets check --fail-on warn
 ```
 
 ## Why TokenTracker?

@@ -621,7 +621,13 @@ def budgets_rm(name) -> None:
 @budgets.command("check")
 @click.argument("name", required=False)
 @click.option("--json", "json_output", is_flag=True, help="Print machine-readable JSON")
-def budgets_check(name, json_output) -> None:
+@click.option(
+    "--fail-on",
+    type=click.Choice(["exceeded", "warn"]),
+    default="exceeded",
+    help="Exit non-zero from this status level up (CI gates use 'warn' to catch drift early).",
+)
+def budgets_check(name, json_output, fail_on) -> None:
     """Check saved budgets against current spend (all of them, or a single NAME).
 
     Exits non-zero when any checked budget is exceeded, so a CI step can gate on it.
@@ -657,5 +663,6 @@ def budgets_check(name, json_output) -> None:
                 f"[{style}]{r['status'].upper():8}[/{style}] [bold]{r['name']}[/bold] "
                 f"${r['spent_usd']:.4f}/${r['limit_usd']:.2f} ({r['usage_pct']:.1f}%) · {eta}"
             )
-    if any(r["status"] == "exceeded" for r in results):
+    failing = ("exceeded", "warn") if fail_on == "warn" else ("exceeded",)
+    if any(r["status"] in failing for r in results):
         sys.exit(1)
