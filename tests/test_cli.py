@@ -4,7 +4,7 @@ import time
 from click.testing import CliRunner
 
 import tokentracker.db as db
-from tokentracker.cli import main
+from tokentracker.cli import budgets, main
 from tokentracker.db import get_db, log_call
 
 
@@ -512,9 +512,6 @@ def test_budgets_check_fail_on_warn_exits_nonzero_on_warn(tmp_path, monkeypatch)
         name="tight", limit_usd=0.10, warn_at=0.5, days=1, db_path=db_path
     )
 
-    from click.testing import CliRunner
-    from tokentracker.cli import budgets
-
     result = CliRunner().invoke(budgets, ["check"])
     assert result.exit_code == 0  # warn does not fail by default
 
@@ -530,9 +527,6 @@ def test_budgets_check_fail_on_exceeded_still_exits_zero_when_clean(tmp_path, mo
     budgets_mod.set_budget(
         name="roomy", limit_usd=100.0, warn_at=0.8, days=1, db_path=db_path
     )
-
-    from click.testing import CliRunner
-    from tokentracker.cli import budgets
 
     result = CliRunner().invoke(budgets, ["check", "--fail-on", "warn"])
     assert result.exit_code == 0
